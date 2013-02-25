@@ -42,24 +42,22 @@ class WiperunAction extends Action {
 			return;
 		}
 
-		$jobOwner = $db->getOne(str_queryf(
+
+		$projectID = $db->getOne(str_queryf(
 			'SELECT
-				users.name as user_name
-			FROM jobs, users
-			WHERE jobs.id = %u
-			AND   users.id = jobs.user_id
-			LIMIT 1;',
+				project_id
+			FROM jobs
+			WHERE id = %u;',
 			$jobID
 		));
 
-		if ( !$jobOwner ) {
+		if ( !$projectID ) {
 			$this->setError( "invalid-input", "Job $jobID not found." );
 			return;
 		}
 
 		// Check authentication
-		$userId = $this->doRequireAuth( $jobOwner );
-		if ( !$userId ) {
+		if ( !$this->doRequireAuth( $projectID ) ) {
 			return;
 		}
 
