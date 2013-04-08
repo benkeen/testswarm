@@ -32,12 +32,20 @@ class ProjectPage extends Page {
 
 		$this->setSubTitle( $data['info']['display_title'] );
 
+		$info = array();
+		if ( $data['info']['site_url'] ) {
+			$info[] = 'Homepage: ' . html_tag( 'a', array( 'href' => $data['info']['site_url'] ), parse_url( $data['info']['site_url'], PHP_URL_HOST ) ?: $data['info']['site_url'] );
+		}
+		$info[] = 'Created: ' . self::getPrettyDateHtml( $data['info'], 'created' );
+		$info[] = 'Last updated: ' . self::getPrettyDateHtml( $data['info'], 'updated' );
+
+		$html .= '<div class="well well-small">' . implode( ' <span class="muted">|</span> ', $info ) . '</div>';
+
 		if ( !count( $data['jobs'] ) ) {
 
 			$html .= '<div class="alert alert-info">No jobs found.</div>';
 
 		} else {
-			// TODO: Display id, displayTitle, url
 
 			$html .= '<h2>Jobs</h2><p class="swarm-pagination">';
 			if ( $data['pagination']['prev'] ) {

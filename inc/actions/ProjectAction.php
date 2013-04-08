@@ -131,8 +131,14 @@ class ProjectAction extends Action {
 		uasort( $userAgents, 'BrowserInfo::sortUaData' );
 
 
+		$projectInfo = (array)$projectRow;
+		unset( $projectInfo['updated'], $projectInfo['created'] );
+
+		self::addTimestampsTo( $projectInfo, $projectRow->updated, 'updated' );
+		self::addTimestampsTo( $projectInfo, $projectRow->created, 'created' );
+
 		$this->setData( array(
-			'info' => $projectRow,
+			'info' => $projectInfo,
 			'jobs' => $jobs,
 			'pagination' => $pagination,
 			'userAgents' => $userAgents,

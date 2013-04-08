@@ -157,7 +157,7 @@ abstract class Action {
 	 * "rawUTC" or "prefixRawUTC" respectively.
 	 */
 	final protected static function addTimestampsTo( &$target, $tsRawUTC, $prefix = null ) {
-			$tsLocalFormatted = strftime( '%c', gmstrtotime( $tsRawUTC ) );
+			$tsLocalFormatted = date( 'r', gmstrtotime( $tsRawUTC ) );
 
 			// PHP's "c" claims to be ISO compatible but prettyDateJS disagrees
 			// ("2004-02-12T15:19:21+00:00" vs. "2004-02-12T15:19:21Z").
@@ -169,7 +169,7 @@ abstract class Action {
 				$target[( $prefix ? "{$prefix}ISO" : 'ISO' )] = $tsISO;
 				$target[( $prefix ? "{$prefix}LocalFormatted" : 'localFormatted' )] = $tsLocalFormatted;
 			} else {
-				throw SwarmException( 'Invalid arguments to ' . __METHOD__ );
+				throw new SwarmException( 'Invalid arguments to ' . __METHOD__ );
 			}
 	}
 
